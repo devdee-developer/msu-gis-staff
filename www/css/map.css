@@ -1,0 +1,296 @@
+/* ----------------------------------------------------------------------------- start : map_page ----------------------------------------------------------------------------- */
+#map_page .selecePosition {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  padding: 10px;
+}
+#map_page .selecePosition .card-body {
+  display: flex;
+  justify-content: center;
+  padding: 0.8em 1em;
+  position: relative;
+  border-radius: 15px;
+  background-color: white;
+  flex-direction: column;
+  align-items: center;
+}
+#map_page .selecePosition .card-body p {
+  font-size: 16px;
+}
+#map_page .selecePosition .card-body .btn_select_group {
+  display: flex;
+  flex-direction: row;
+}
+#map_page .selecePosition .card-body .btn_select_group .btn_select {
+  width: 100px;
+  height: 50px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border-radius: 15px;
+  border-width: 3px;
+  border-style: solid;
+  font-size: 16px;
+  color: white;
+}
+#map_page .selecePosition .card-body .btn_select_group .btn_select.active {
+  width: 100px;
+  height: 50px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border-radius: 15px;
+  border-width: 3px;
+  border-style: solid;
+  font-size: 16px;
+  color: white;
+  background-image: url(../img/eye_icon.png);
+  background-position-x: left;
+  background-position-y: top;
+  background-size: 20px 16px;
+  background-repeat: no-repeat;
+  background-origin: padding-box;
+}
+#map_page .filterPosition {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  padding: 10px;
+}
+#map_page .filterPosition .card-body {
+  display: flex;
+  justify-content: center;
+  padding: 0.8em 1em;
+  position: relative;
+  border-radius: 15px;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#map_page .filterPosition .card-body img {
+  height: 30px;
+  object-fit: contain;
+}
+#map_page .filterPosition .card-body p {
+  font-size: 16px;
+}
+#map_page .filterPosition .card-body .filter_group {
+  width: 100%;
+  flex-direction: row;
+  padding-left: 42px;
+  background-image: url(../img/directions_icon.png);
+  background-position-x: left;
+  background-position-y: top;
+  background-repeat: no-repeat;
+  background-origin: padding-box;
+}
+#map_page .filterPosition .card-body .filter_group .default_position {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  padding-left: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  background-color: #ffffff;
+  height: 40px;
+  float: left;
+  font-family: Prompt;
+  color: #010979;
+  font-size: 12px;
+  border: 1px solid #dccffe;
+  background-image: url(../img/arrow_d_blue.png);
+  background-position-x: right;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-origin: padding-box;
+}
+#map_page .filterPosition .card-body .filter_group .default_position.disabled {
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+  padding-left: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  background-color: #eeeafd;
+  height: 40px;
+  float: left;
+  font-family: Prompt;
+  color: #010979;
+  font-size: 16px;
+  background-image: url(../img/arrow_d_blue.png);
+  background-position-x: right;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-origin: padding-box;
+}
+#map_page .filterBar {
+  width: 100%;
+  height: 8px;
+  background-color: #eeeafd;
+  border-radius: 15px;
+}
+#map_page .filterPosition .card-body-filter-hide {
+  display: flex;
+  justify-content: center;
+  padding: 0.8em 1em;
+  position: relative;
+  border-radius: 15px;
+  background-color: white;
+  flex-direction: row;
+  align-items: center;
+}
+#map_page .filterPosition .card-body-filter-hide .filter_group_hide {
+  width: 100%;
+  flex-direction: row;
+  padding-left: 10px;
+}
+#map_page
+  .filterPosition
+  .card-body-filter-hide
+  .filter_group_hide
+  .default_position {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  padding-left: 20px;
+  border-radius: 25px;
+  background-color: #ffffff;
+  height: 40px;
+  float: left;
+  font-family: Prompt;
+  color: #010979;
+  font-size: 12px;
+  border: 1px solid #dccffe;
+  background-image: url(../img/arrow_d_blue.png);
+  background-position-x: right;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-origin: padding-box;
+}
+#map_page .elder_content_fixed {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  bottom: 100px;
+  /* bottom: 40px; */
+  display: none;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#map_page .elder_content_fixed .card-body {
+  display: flex;
+  flex-direction: row;
+  padding: 0.8em 1em;
+  position: relative;
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 10px;
+  border-right-color: #f7f5fc;
+  border-right-style: solid;
+  /* border-right-width: 44px; */
+  background-color: #ffffff;
+}
+#map_page .elder_content_fixed .card-body-thumbnail {
+  width: 50px;
+  height: 50px;
+}
+#map_page .elder_content_fixed .card-body-close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  right: 0px;
+  top: -15px;
+}
+#map_page .elder_content_fixed .card-body-content {
+  padding-left: 15px;
+}
+#map_page .elder_content_fixed .card-body-content .name {
+  color: #000000;
+  font-size: 16px;
+  font-family: Prompt;
+}
+#map_page .elder_content_fixed .card-body-content .urgent {
+  color: #000000;
+}
+#map_page .elder_content_fixed .right-icon {
+  color: #c9b8f7;
+  position: absolute;
+  top: 50%;
+  right: -8%;
+  transform: translateY(-50%);
+}
+/* ----------------------------------------------------------------------------- end : map_page ----------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------- start : map_elder_list_page ----------------------------------------------------------------------------- */
+#map_elder_list_page .content.grey {
+  background-color: #f7f5fc;
+  bottom: 0px;
+}
+#map_elder_list_page .notifications-card-body {
+  display: flex;
+  flex-direction: row;
+  padding: 0.8em 1em;
+  position: relative;
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 10px;
+  border-right-color: #f7f5fc;
+  border-right-style: solid;
+  border-right-width: 44px;
+}
+#map_elder_list_page .notifications-card-body .card-body-thumbnail {
+  width: 47px;
+  height: 47px;
+}
+#map_elder_list_page .notifications-card-body .card-body-content {
+  padding-left: 15px;
+}
+#map_elder_list_page .notifications-card-body .card-body-content .name {
+  color: #000000;
+  font-size: 20px;
+  font-family: Prompt;
+}
+#map_elder_list_page .notifications-card-body .card-body-content .urgent {
+  color: #000000;
+}
+#map_elder_list_page .notifications-card-body .right-icon {
+  color: #c9b8f7;
+  position: absolute;
+  top: 50%;
+  right: -8%;
+  transform: translateY(-50%);
+}
+/* ----------------------------------------------------------------------------- end : map_elder_list_page ----------------------------------------------------------------------------- */
+#bodyMapPagemarkerContent {
+  color: #ffffff;
+  background-color: #f53f4d;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+#bodyMapPagemarkerContentOffice {
+  color: #000000;
+  background-color: #ea940c;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+#bodyMapPagemarkerContentShph {
+  color: #ffffff;
+  background-color: #0146c9;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+}

@@ -1,0 +1,171 @@
+.profile_page_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #010979;
+  background-color: #ffffff;
+  height: 60px;
+}
+.profile_page_header .title {
+  font-size: 23px;
+}
+.content_profile {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  top: 60px;
+  background-image: url(../img/background_profile.png);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.card_header_profile {
+  margin-left: 2%;
+  /* margin-right: 2%; */
+  margin-top: 3%;
+  height: 120px;
+  background-color: #ffffff;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  box-shadow: 0px -1px 5px #eeeafd;
+  border-bottom: 5px solid #eeeafd;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  color: #010979;
+}
+.card_body_profile {
+  margin-left: 2%;
+  margin-right: 2%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px #eeeafd;
+  border-bottom: 5px solid #eeeafd;
+  padding: 0px 0px 15px 0px;
+}
+.card_footer_profile {
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 3%;
+  background-color: #ffffff;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0px -1px 5px #eeeafd;
+}
+.card_footer_profile .profile_role {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+}
+.card_footer_profile p {
+  padding-left: 15px;
+}
+.card_header_profile .card_header_thumbnail {
+  width: 80px;
+  height: 80px;
+}
+.card_header_profile .card_header_body_profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+.card_header_profile .card_header_body_profile .base_info_title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.card_header_profile .card_header_body_profile .base_info_title p {
+  padding-left: 15px;
+}
+.card_body_profile .profile_detail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px 20px 0px 20px;
+}
+.card_body_profile .profile_detail p.title {
+  color: #3b3d48;
+  font-size: 16px;
+  width: 150px;
+}
+.card_body_profile .profile_detail p.detail {
+  color: #010979;
+  font-size: 16px;
+  width: 170px;
+}
+.profile_btn_group {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 49px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8%;
+}
+button.profile_cancel {
+  min-width: 130px;
+  height: 53px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 27px;
+  font-size: 20px;
+  color: #010979;
+  border-width: 2px;
+  font-family: Prompt;
+  padding: 0 18.5px;
+  position: relative;
+  border-color: #010979;
+  border-style: solid;
+}
+button.profile_submit {
+  min-width: 130px;
+  height: 53px;
+  background: #6f63fd 0% 0% no-repeat padding-box;
+  box-shadow: 0px 8px 12px #9595f273;
+  border-radius: 27px;
+  font-size: 20px;
+  color: #ffffff;
+  border-width: 0;
+  font-family: Prompt;
+  padding: 0 18.5px;
+  position: relative;
+}
+.card_footer_profile .input_profile_role {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+}
+.card_footer_profile .input_profile_role .input-profile-role-field {
+  padding: 15px;
+  text-align: left;
+  padding-left: 20px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid #1bc3a2;
+  height: 50px;
+  float: left;
+  font-family: Prompt;
+  color: #1bc3a2;
+  font-size: 16px;
+}
+.gear_header_btn {
+  width: 30px;
+  height: 30px;
+  float: right;
+  background: url(../img/gear_icon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px;
+  margin-right: 10px;
+}
+.vhv_user{
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  width: 100%;
+
+}

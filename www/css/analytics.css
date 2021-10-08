@@ -1,0 +1,75 @@
+#analytics_page .content {
+  background-color: #f7f5fc;
+}
+#analytics_page .content .content-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 10px 10px 10px 10px;
+}
+#analytics_page .content .content-card .content-title {
+  color: #010979;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 20px 20px 20px 70px;
+  background-image: url(../img/menu_button_evaluate.png);
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 20px;
+  background-size: 42px;
+  border-bottom: 1px solid #f1f0f7;
+}
+#analytics_page .content .content-card .content-body {
+  padding: 20px;
+}
+#analytics_page .last-update {
+  font-size: 14px;
+  color: #97989b;
+}
+#analytics_page .chart_wrapper {
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+
+}
+#chart-analytics-male.render{
+    width: 100%;
+    background-image: url(../img/male.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y:center ;
+    background-size: 42% 42%;
+}
+#chart-analytics-female.render{
+    width: 100%;
+    background-image: url(../img/female.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y:center ;
+    background-size: 42% 42%;
+}
+#analytics_page .chart_wrapper .sex{
+  color: #010979;
+  font-size: 23px;
+}
+#analytics_page .chart_wrapper .total {
+  color: #7F7FA8;
+  font-size: 16px;
+}
+ul.chart_legend {
+    list-style: none;
+    margin-top: 20px;
+  }
+ul.chart_legend li {
+    color: #0D0E12;
+    font-size:16px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+ul.chart_legend li span {
+ height: 16px;
+ width: 16px;
+ border-radius: 50%;
+ display: inline-block;
+ margin-right: 10px;
+}

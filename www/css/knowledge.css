@@ -1,0 +1,28 @@
+#knowledge_page .content.grey {
+  background-color: #f7f5fc;
+  bottom: 0px;
+}
+.knowledge-title {
+  background-color: #f5c761;
+}
+#knowledge_page .content .slide-bar {
+  background-color: #ffffff;
+  /* width: 100%; */
+  height: 55px;
+  padding: 10px;
+}
+#knowledge_page .content .slide-bar .swiper-slide {
+  background-color: #dccffe;
+  color: #3b3d48;
+  height: 35px;
+  border-radius: 10px;
+}
+#knowledge_page .content .slide-bar .swiper-slide.active {
+  background-color: #6f63fd;
+  color: #ffffff;
+  height: 35px;
+  border-radius: 10px;
+}
+.knowledge_icon {
+  width: 11px;
+}

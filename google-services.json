@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1098663352371",
+    "project_id": "vhvgis",
+    "storage_bucket": "vhvgis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098663352371:android:c1fefcbe4f4fa1c759eb46",
+        "android_client_info": {
+          "package_name": "com.meedeem.vhvapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098663352371-21f4329tm2s0kemtjtqlap04u0dtfvl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBJg-GNtrb-d3z2akvU_6B7g-nlkEVSzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098663352371-21f4329tm2s0kemtjtqlap04u0dtfvl4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098663352371:android:cc83d98a0d50c4d859eb46",
+        "android_client_info": {
+          "package_name": "com.meedeem.vhvstaffapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098663352371-21f4329tm2s0kemtjtqlap04u0dtfvl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBJg-GNtrb-d3z2akvU_6B7g-nlkEVSzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098663352371-21f4329tm2s0kemtjtqlap04u0dtfvl4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
