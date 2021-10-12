@@ -5,34 +5,91 @@ $(function () {
     loading.show();
     var status = navigator.onLine;
     if (status) {
-      if (CurrentPosUrgentNoti) {
+     
         setTimeout(function () {
           loading.hide();
-          changePage("urgent_noti_page", function () {
-            initialUrgentNotiPageFunc();
-            toturialvideo.currentTime = 0;
-            toturialvideo.play();
-            toturialvideo.loop = true;
-            showModal("modal-tutorial-urgent-noti");
-          });
+          changePage("notifications_urgent_noti_page", function () {
+            callAPI(
+              `${api_base_url}/getAllEmergency`,
+              "POST",
+              JSON.stringify({ token: token.getUserToken() }),
+              (res) => {
+                console.log(res)
+                // if (res.status) {
+                 
+                //   res.data[0]["EMC_PIC1"] != "null"
+                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC1"])
+                //     : "";
+                //   res.data[0]["EMC_PIC2"] != "null"
+                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC2"])
+                //     : "";
+                //   res.data[0]["EMC_PIC3"] != "null"
+                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC3"])
+                //     : "";
+                //   res.data[0]["EMC_PIC4"] != "null"
+                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC4"])
+                //     : "";
+                //   res.data[0]["EMC_PIC5"] != "null"
+                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC5"])
+                //     : "";
+                //   loading.hide();
+                //   renderElderImgNotificationDetailUrgentNoti(
+                //     TempElderUrgentNoti["EMC_PIC"]
+                //   );
+                // } else {
+                //   loading.hide();
+                //   renderElderImgNotificationDetailUrgentNoti(
+                //     TempElderUrgentNoti["EMC_PIC"]
+                //   );
+                // }
+              },
+              (err) => {
+                // loading.hide();
+                // renderElderImgNotificationDetailUrgentNoti(
+                //   TempElderUrgentNoti["EMC_PIC"]
+                // );
+              }
+            );
+          })
         }, 500);
-      } else {
-        loading.hide();
-        let chkPos = confirm("กรุณาอุนญาติตำแหน่ง");
-        if (chkPos) {
-          document.addEventListener(
-            "deviceready",
-            onDeviceUrgentPageReady,
-            false
-          );
-        } else {
-        }
-      }
+ 
     } else {
       alert("กรุณาเชื่อมต่ออินเตอร์เน็ต");
       loading.hide();
     }
   })
+  // $('.footer_item.menu_urgent_page').on('click',function(){
+  //   loading.show();
+  //   var status = navigator.onLine;
+  //   if (status) {
+  //     if (CurrentPosUrgentNoti) {
+  //       setTimeout(function () {
+  //         loading.hide();
+  //         changePage("urgent_noti_page", function () {
+  //           initialUrgentNotiPageFunc();
+  //           toturialvideo.currentTime = 0;
+  //           toturialvideo.play();
+  //           toturialvideo.loop = true;
+  //           showModal("modal-tutorial-urgent-noti");
+  //         });
+  //       }, 500);
+  //     } else {
+  //       loading.hide();
+  //       let chkPos = confirm("กรุณาอุนญาติตำแหน่ง");
+  //       if (chkPos) {
+  //         document.addEventListener(
+  //           "deviceready",
+  //           onDeviceUrgentPageReady,
+  //           false
+  //         );
+  //       } else {
+  //       }
+  //     }
+  //   } else {
+  //     alert("กรุณาเชื่อมต่ออินเตอร์เน็ต");
+  //     loading.hide();
+  //   }
+  // })
 
 });
 function onDeviceUrgentPageReady() {
@@ -1235,9 +1292,7 @@ $("#urgent_noti_page .urgent_noti_page_header .noti_header_btn").on(
 $(
   "#notifications_urgent_noti_page .urgent_noti_page_header .back_header_btn"
 ).on("click", function () {
-  changePage("urgent_noti_page", function () {
-    initialUrgentNotiPageFunc();
-  });
+  $('#home_page .footer_item.menu_home_page').click()
 });
 /* ----------------------------------------------------------------------------- end : notifications_urgent_noti_page ----------------------------------------------------------------------------- */
 

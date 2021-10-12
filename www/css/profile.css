@@ -89,12 +89,12 @@
 .card_body_profile .profile_detail p.title {
   color: #3b3d48;
   font-size: 16px;
-  width: 150px;
+  width: 145px;
 }
 .card_body_profile .profile_detail p.detail {
   color: #010979;
   font-size: 16px;
-  width: 170px;
+  width: 100%;
 }
 .profile_btn_group {
   background: #ffffff 0% 0% no-repeat padding-box;

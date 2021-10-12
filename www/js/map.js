@@ -69,7 +69,7 @@ function initialMapPageFunc() {
       });
     }
   });
-  let PosLocal = true;
+  let PosLocal = false;
   if (PosLocal) {
     PosCurrent = {
       lat: 16.442611448372272,
