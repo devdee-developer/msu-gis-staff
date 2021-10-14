@@ -1,63 +1,19 @@
 var swiper_urgent_noti;
 let toturialvideo = document.getElementById("toturialvideo");
 $(function () {
-  $('.footer_item.menu_urgent_page').on('click',function(){
+  $(".footer_item.menu_urgent_page").on("click", function () {
     loading.show();
     var status = navigator.onLine;
     if (status) {
-     
-        setTimeout(function () {
-          loading.hide();
-          changePage("notifications_urgent_noti_page", function () {
-            callAPI(
-              `${api_base_url}/getAllEmergency`,
-              "POST",
-              JSON.stringify({ token: token.getUserToken() }),
-              (res) => {
-                console.log(res)
-                // if (res.status) {
-                 
-                //   res.data[0]["EMC_PIC1"] != "null"
-                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC1"])
-                //     : "";
-                //   res.data[0]["EMC_PIC2"] != "null"
-                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC2"])
-                //     : "";
-                //   res.data[0]["EMC_PIC3"] != "null"
-                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC3"])
-                //     : "";
-                //   res.data[0]["EMC_PIC4"] != "null"
-                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC4"])
-                //     : "";
-                //   res.data[0]["EMC_PIC5"] != "null"
-                //     ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC5"])
-                //     : "";
-                //   loading.hide();
-                //   renderElderImgNotificationDetailUrgentNoti(
-                //     TempElderUrgentNoti["EMC_PIC"]
-                //   );
-                // } else {
-                //   loading.hide();
-                //   renderElderImgNotificationDetailUrgentNoti(
-                //     TempElderUrgentNoti["EMC_PIC"]
-                //   );
-                // }
-              },
-              (err) => {
-                // loading.hide();
-                // renderElderImgNotificationDetailUrgentNoti(
-                //   TempElderUrgentNoti["EMC_PIC"]
-                // );
-              }
-            );
-          })
-        }, 500);
- 
+      changePage("notifications_urgent_noti_page", function () {
+        fetchEmergency()
+      });
+   
     } else {
       alert("กรุณาเชื่อมต่ออินเตอร์เน็ต");
       loading.hide();
     }
-  })
+  });
   // $('.footer_item.menu_urgent_page').on('click',function(){
   //   loading.show();
   //   var status = navigator.onLine;
@@ -90,8 +46,62 @@ $(function () {
   //     loading.hide();
   //   }
   // })
-
 });
+function fetchEmergency(){
+  notiCurrent=[]
+  notiLast=[]
+  loading.show();
+  callAPI(
+    `${api_base_url}/getAllEmergency`,
+    "POST",
+    JSON.stringify({ token: token.getUserToken() }),
+    (res) => {
+      loading.hide();
+      if(res.status==true){
+        let data = res.data
+        console.log(res);
+        data.sort((a, b) => (a.ID < b.ID ? 1 : -1));
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        var dateText =
+          d.getFullYear() +
+          "-" +
+          (("" + month).length < 2 ? "0" : "") +
+          month +
+          "-" +
+          (("" + day).length < 2 ? "0" : "") +
+          day;
+          $.each(data, function (index, row) {
+        
+            if (dateText == row.EMC_DATE.substring(0, 10)) {
+             
+              notiCurrent.push(
+                mapDataNotifications( row, "Current")
+              );
+             
+              renderNotificationsList(notiCurrent, "Current");
+             
+            } else {
+              notiLast.push(
+                mapDataNotifications( row, "Last")
+              );
+             
+              renderNotificationsList(notiLast, "Last");
+          
+            }
+           
+         
+          });
+      }
+   
+    },
+    (err) => {
+      loading.hide();
+      console.log(err);
+    }
+  );
+}
 function onDeviceUrgentPageReady() {
   navigator.geolocation.getCurrentPosition(
     onSuccessUrgentPage,
@@ -1122,7 +1132,9 @@ function renderNotificationsList(arr, id) {
   $.each(arr, function (index, row) {
     let answered = "";
     let answeredText = "รอตอบรับ";
+    console.log(row.EMC_DATE)
     let dateShow = dateStringFormat(row.EMC_DATE);
+    console.log(dateShow)
     if (row.ADMIN_ID != "null" && row.ADMIN_ID != null) {
       answered = " answered";
     }
@@ -1165,11 +1177,13 @@ function renderNotificationsList(arr, id) {
     );
   }
 }
-function mapDataNotifications(res, row, EMC_NAME, FLAG) {
+function mapDataNotifications( row, FLAG) {
+  let res = {...row}
   res.EMC_FLAG = FLAG;
   res.EMC_DATE = row.EMC_DATE;
   res.EMC_TYPE = row.EMC_TYPE;
-  res.EMC_TOPIC = row.EMC_TOPIC;
+  res.ELDER_NAME = row.ELDER_NAME;
+  res.EMC_NAME = row.EMC_TOPIC;
   res.EMC_DESC = row.EMC_DESC;
   res.EMC_PIC = [];
   row.EMC_PIC1 != "null" ? res.EMC_PIC.push(row.EMC_PIC1) : "";
@@ -1181,30 +1195,45 @@ function mapDataNotifications(res, row, EMC_NAME, FLAG) {
   res.ADMIN_DATE = row.ADMIN_DATE;
   res.ADMIN_DESC = row.ADMIN_DESC;
   res.ADMIN_SEND = row.ADMIN_SEND;
-  if (res.ELDER_LAT != "null" && res.ELDER_LONG != "null") {
-    res.DISTANCE = getDistanceFromLatLonInKm(
-      CurrentPosUrgentNoti.coords.latitude,
-      CurrentPosUrgentNoti.coords.longitude,
-      // 16.442611448372272,
-      // 102.82001846528836,
-      res.ELDER_LAT,
-      res.ELDER_LONG
-    ).toFixed(1);
-  } else {
-    res.DISTANCE = "N/A";
-  }
-  res.CURRENT_LAT = CurrentPosUrgentNoti.coords.latitude;
-  res.CURRENT_LONG = CurrentPosUrgentNoti.coords.longitude;
-  // res.CURRENT_LAT = 16.442611448372272;
-  // res.CURRENT_LONG = 102.82001846528836;
-  res.EMC_NAME = EMC_NAME;
+  // if (res.ELDER_LAT != "null" && res.ELDER_LONG != "null") {
+  //   res.DISTANCE = getDistanceFromLatLonInKm(
+  //     CurrentPosUrgentNoti.coords.latitude,
+  //     CurrentPosUrgentNoti.coords.longitude,
+   
+  //     res.ELDER_LAT,
+  //     res.ELDER_LONG
+  //   ).toFixed(1);
+  // } else {
+  //   res.DISTANCE = "N/A";
+  // }
+  // res.CURRENT_LAT = CurrentPosUrgentNoti.coords.latitude;
+  // res.CURRENT_LONG = CurrentPosUrgentNoti.coords.longitude;
+
+  // res.EMC_NAME = EMC_NAME;
+  res.ELDER_AVATAR = row.ELDER_AVATAR
   res.EMC_GUID = row.GUID;
   return res;
 }
 function selectElderNotifications(ID, FLAG, EMC_DATE, EMC_GUID) {
   changePage("urgent_noti_page", function () {
-    loading.show();
-    initialNotificationDetailUrgentNotiPageFunc(ID, FLAG, EMC_DATE, EMC_GUID);
+    callAPI(
+      `${api_base_url}/getEmergencyInfo`,
+      "POST",
+      JSON.stringify({ token: token.getUserToken() ,GUID:EMC_GUID}),
+      (res) => {
+        loading.hide();
+        if(res.status==true){
+
+        }
+      },
+      (err) => {
+        loading.hide();
+        console.log(err);
+      }
+    );
+    // loading.show();
+    
+    // initialNotificationDetailUrgentNotiPageFunc(ID, FLAG, EMC_DATE, EMC_GUID);
   });
 }
 // เปลี่ยนหน้าไป notifications_urgent_noti_page
@@ -1292,7 +1321,7 @@ $("#urgent_noti_page .urgent_noti_page_header .noti_header_btn").on(
 $(
   "#notifications_urgent_noti_page .urgent_noti_page_header .back_header_btn"
 ).on("click", function () {
-  $('#home_page .footer_item.menu_home_page').click()
+  $("#home_page .footer_item.menu_home_page").click();
 });
 /* ----------------------------------------------------------------------------- end : notifications_urgent_noti_page ----------------------------------------------------------------------------- */
 

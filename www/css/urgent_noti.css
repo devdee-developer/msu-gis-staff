@@ -762,7 +762,7 @@ button.cancel_noti {
   flex-direction: row;
   padding: 0.8em 1em;
   position: relative;
-  border-width: 2px;
+  /* border-width: 2px; */
   border-bottom-width: 8px;
   border-style: solid;
   border-color: #f53f4d;

@@ -1145,7 +1145,9 @@ function clearInitial() {
 }
 function dateStringFormat(date) {
   var day = date.substring(8, 10);
-  var month = date.substring(5, 7).replace("0", "") - 1;
+ 
+  var month = parseInt(date.substring(5, 7))  - 1;
+  console.log(month)
   var year = date.substring(0, 4);
   var time = date.substring(11, 16);
   var dateString =
@@ -1162,7 +1164,7 @@ function dateStringFormat(date) {
 }
 function dateFullStringFormat(date) {
   var day = date.substring(8, 10);
-  var month = date.substring(5, 7).replace("0", "") - 1;
+  var month = parseInt(date.substring(5, 7)) - 1;
   var year = date.substring(0, 4);
   var time = date.substring(11, 16);
   var dateString =
