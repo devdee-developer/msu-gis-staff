@@ -502,11 +502,11 @@ function enabledElderUrgentNotiPageFunc() {
   );
 }
 
-function initMapUrgentNotiPage() {
+function initMapUrgentNotiPage(LAT,LONG) {
   map = new google.maps.Map(document.getElementById("mapUrgentNotiPage"), {
     center: new google.maps.LatLng(
-      CurrentPosUrgentNoti.coords.latitude,
-      CurrentPosUrgentNoti.coords.longitude
+      LAT,
+      LONG
     ), //new google.maps.LatLng(-33.91722, 151.2263),
     zoom: 16,
     disableDefaultUI: true,
@@ -544,6 +544,7 @@ function MarkerDirectionsUrgentNotiPage(_name, _posDestination) {
   };
   // Create setCenterMap.
   map.setCenter(_posOriginal);
+  console.log(directionsRenderer)
   directionsRenderer.setOptions({
     suppressPolylines: false,
     suppressMarkers: true,
@@ -573,7 +574,7 @@ function MarkerDirectionsUrgentNotiPage(_name, _posDestination) {
   infowindowOriginal.open(map, markerOriginal);
   // ปุ่ม กลับหน้า map
   $("#urgent_noti_page .backformap .backformap_btn").on("click", function () {
-    $("#urgent_noti_page .urgent_noti_page_header").show();
+    // $("#urgent_noti_page .urgent_noti_page_header").show();
     $("#urgent_noti_page .urgent_detail_noti_page_header").show();
     $("#urgent_noti_page .content").css("top", "60px");
     $("#urgent_noti_page .mapContent").removeClass("active");
@@ -582,10 +583,10 @@ function MarkerDirectionsUrgentNotiPage(_name, _posDestination) {
         TempElderUrgentNoti["ID"] +
         '"]'
     ).addClass("active");
-    $("#urgent_noti_page .swiper_elder_content").show();
-    $("#urgent_noti_page .DetailElder").show();
-    $("#urgent_noti_page .content").removeClass("active");
-    $("#urgent_noti_page .content .backformap").hide();
+    // $("#urgent_noti_page .swiper_elder_content").show();
+    // $("#urgent_noti_page .DetailElder").show();
+    // $("#urgent_noti_page .content").removeClass("active");
+    // $("#urgent_noti_page .content .backformap").hide();
     directionsRenderer.setMap(null);
     map.setCenter(_posDestination);
     map.setZoom(15);
@@ -612,13 +613,14 @@ function calculateAndDisplayRoute(
 }
 function MarkerUrgentNotiPage(_name, _posDestination) {
   // Create markerDestination.
+  console.log(_posDestination)
   markerDestination = new google.maps.Marker({
     position: _posDestination,
     icon: "img/pin_marker.png",
     map: map,
   });
   // markers.push(markerDestination);
-  map.setCenter(_posDestination);
+  // map.setCenter(_posDestination);
   // Set bodyMarkerContent
   var contentString =
     '<div id="bodyMarkerContent" onclick="showFullMap()"><p>' +
@@ -631,20 +633,19 @@ function MarkerUrgentNotiPage(_name, _posDestination) {
 }
 // กดชื่อบน marker
 function showFullMap() {
+  initialUrgentNotiPageFunc();
   $("#urgent_noti_page .urgent_noti_page_header").hide();
   $("#urgent_noti_page .urgent_detail_noti_page_header").hide();
   $("#urgent_noti_page .content").css("top", "0px");
 
   $("#urgent_noti_page .content .backformap").removeClass("to_notifications");
-  if ($(".backformap_to_notifications_page_btn").is(":visible")) {
+  
     $("#urgent_noti_page .content .backformap button").hide();
     $(
       "#urgent_noti_page .content .backformap .backformap_urgent_detail_btn"
     ).show();
-  } else {
-    $("#urgent_noti_page .content .backformap button").hide();
-    $("#urgent_noti_page .content .backformap .backformap_btn").show();
-  }
+ 
+
   if (!$("#urgent_noti_page .mapContent").hasClass("active")) {
     MarkerDirectionsUrgentNotiPage(
       TempElderUrgentNoti["ELDER_NAME"],
@@ -1132,7 +1133,7 @@ function renderNotificationsList(arr, id) {
   $.each(arr, function (index, row) {
     let answered = "";
     let answeredText = "รอตอบรับ";
-    console.log(row.EMC_DATE)
+    console.log(row)
     let dateShow = dateStringFormat(row.EMC_DATE);
     console.log(dateShow)
     if (row.ADMIN_ID != "null" && row.ADMIN_ID != null) {
@@ -1186,26 +1187,28 @@ function mapDataNotifications( row, FLAG) {
   res.EMC_NAME = row.EMC_TOPIC;
   res.EMC_DESC = row.EMC_DESC;
   res.EMC_PIC = [];
-  row.EMC_PIC1 != "null" ? res.EMC_PIC.push(row.EMC_PIC1) : "";
-  row.EMC_PIC2 != "null" ? res.EMC_PIC.push(row.EMC_PIC2) : "";
-  row.EMC_PIC3 != "null" ? res.EMC_PIC.push(row.EMC_PIC3) : "";
-  row.EMC_PIC4 != "null" ? res.EMC_PIC.push(row.EMC_PIC4) : "";
-  row.EMC_PIC5 != "null" ? res.EMC_PIC.push(row.EMC_PIC5) : "";
+  row.EMC_PIC1 != null ? res.EMC_PIC.push(row.EMC_PIC1) : "";
+  row.EMC_PIC2 != null ? res.EMC_PIC.push(row.EMC_PIC2) : "";
+  row.EMC_PIC3 != null ? res.EMC_PIC.push(row.EMC_PIC3) : "";
+  row.EMC_PIC4 != null ? res.EMC_PIC.push(row.EMC_PIC4) : "";
+  row.EMC_PIC5 != null ? res.EMC_PIC.push(row.EMC_PIC5) : "";
   res.ADMIN_ID = row.ADMIN_ID;
   res.ADMIN_DATE = row.ADMIN_DATE;
   res.ADMIN_DESC = row.ADMIN_DESC;
   res.ADMIN_SEND = row.ADMIN_SEND;
-  // if (res.ELDER_LAT != "null" && res.ELDER_LONG != "null") {
-  //   res.DISTANCE = getDistanceFromLatLonInKm(
-  //     CurrentPosUrgentNoti.coords.latitude,
-  //     CurrentPosUrgentNoti.coords.longitude,
-   
-  //     res.ELDER_LAT,
-  //     res.ELDER_LONG
-  //   ).toFixed(1);
-  // } else {
-  //   res.DISTANCE = "N/A";
-  // }
+  if (res.ELDER_LAT != null && res.ELDER_LONG != null) {
+    res.DISTANCE = getDistanceFromLatLonInKm(
+      // CurrentPosUrgentNoti.coords.latitude,
+      // CurrentPosUrgentNoti.coords.longitude,
+      13.6577024,99.8899712,
+      res.ELDER_LAT,
+      res.ELDER_LONG
+    ).toFixed(1);
+  } else {
+    res.DISTANCE = "N/A";
+  }
+  res.CURRENT_LAT =13.6577024;
+  res.CURRENT_LONG = 99.8899712;
   // res.CURRENT_LAT = CurrentPosUrgentNoti.coords.latitude;
   // res.CURRENT_LONG = CurrentPosUrgentNoti.coords.longitude;
 
@@ -1215,26 +1218,13 @@ function mapDataNotifications( row, FLAG) {
   return res;
 }
 function selectElderNotifications(ID, FLAG, EMC_DATE, EMC_GUID) {
-  changePage("urgent_noti_page", function () {
-    callAPI(
-      `${api_base_url}/getEmergencyInfo`,
-      "POST",
-      JSON.stringify({ token: token.getUserToken() ,GUID:EMC_GUID}),
-      (res) => {
-        loading.hide();
-        if(res.status==true){
+  changePage('urgent_noti_page',function(){
+    loading.show();
 
-        }
-      },
-      (err) => {
-        loading.hide();
-        console.log(err);
-      }
-    );
-    // loading.show();
-    
-    // initialNotificationDetailUrgentNotiPageFunc(ID, FLAG, EMC_DATE, EMC_GUID);
-  });
+    initialNotificationDetailUrgentNotiPageFunc(ID, FLAG, EMC_DATE, EMC_GUID);
+  })
+         
+
 }
 // เปลี่ยนหน้าไป notifications_urgent_noti_page
 $("#urgent_noti_page .urgent_noti_page_header .noti_header_btn").on(
@@ -1467,6 +1457,7 @@ function initialNotificationDetailUrgentNotiPageFunc(
   }
 
   renderElderCardNotificationDetailUrgentNoti(TempElderUrgentNoti);
+  initMapUrgentNotiPage(TempElderUrgentNoti["ELDER_LAT"],  TempElderUrgentNoti["ELDER_LONG"])
   MarkerUrgentNotiPage(
     TempElderUrgentNoti["ELDER_NAME"],
     new google.maps.LatLng(
@@ -1474,6 +1465,7 @@ function initialNotificationDetailUrgentNotiPageFunc(
       TempElderUrgentNoti["ELDER_LONG"]
     )
   );
+  
   $("#urgent_noti_page .UrgentDetailElder").show();
   if (
     TempElderUrgentNoti["ADMIN_ID"] != "null" &&
@@ -1503,28 +1495,31 @@ function initialNotificationDetailUrgentNotiPageFunc(
   $("#urgent_noti_page .UrgentDetailElder #urgentDetailDiseaseDetail").text(
     TempElderUrgentNoti["EMC_DESC"]
   );
-  if (TempElderUrgentNoti.EMC_PIC.length == 0) {
+  TempElderUrgentNoti.EMC_PIC = []
     callAPI(
-      `${api_base_url}/getAllEmergency`,
+      `${api_base_url}/getEmergencyInfo`,
       "POST",
-      JSON.stringify({ token: token.getUserToken(), GUID: EMC_GUID }),
+      JSON.stringify({ token: token.getUserToken() ,GUID:EMC_GUID}),
       (res) => {
+        loading.hide();
+       console.log(res)
         if (res.status) {
           // console.log(res.data[0]["EMC_PIC1"]);
-          res.data[0]["EMC_PIC1"] != "null"
-            ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC1"])
+          
+          res.data["EMC_PIC1"] != null
+            ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC1"])
             : "";
-          res.data[0]["EMC_PIC2"] != "null"
-            ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC2"])
+          res.data["EMC_PIC2"] != null
+            ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC2"])
             : "";
-          res.data[0]["EMC_PIC3"] != "null"
-            ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC3"])
+          res.data["EMC_PIC3"] != null
+            ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC3"])
             : "";
-          res.data[0]["EMC_PIC4"] != "null"
-            ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC4"])
+          res.data["EMC_PIC4"] != null
+            ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC4"])
             : "";
-          res.data[0]["EMC_PIC5"] != "null"
-            ? TempElderUrgentNoti.EMC_PIC.push(res.data[0]["EMC_PIC5"])
+          res.data["EMC_PIC5"] != null
+            ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC5"])
             : "";
           loading.hide();
           renderElderImgNotificationDetailUrgentNoti(
@@ -1539,12 +1534,10 @@ function initialNotificationDetailUrgentNotiPageFunc(
       },
       (err) => {
         loading.hide();
-        renderElderImgNotificationDetailUrgentNoti(
-          TempElderUrgentNoti["EMC_PIC"]
-        );
+        console.log(err);
       }
     );
-  }
+    
   // renderElderImgNotificationDetailUrgentNoti(TempElderUrgentNoti["EMC_PIC"]);
 
   $("#urgent_noti_page .UrgentDetailElder #edit_title_text").addClass(
@@ -1594,6 +1587,7 @@ function renderElderCardNotificationDetailUrgentNoti(item) {
   );
 }
 function renderElderImgNotificationDetailUrgentNoti(arr) {
+  console.log(arr)
   $("#urgent_noti_page .UrgentDetailElder .camera_detail").empty();
   if (arr.length > 0) {
     let ElderImgNotificationDetailHTML = "";
@@ -1615,7 +1609,7 @@ $("#urgent_noti_page .urgent_detail_noti_page_header .back_header_btn").on(
   "click",
   function () {
     changePage("notifications_urgent_noti_page", function () {
-      initialNotificationUrgentNotiPageFunc();
+      // initialNotificationUrgentNotiPageFunc();
     });
   }
 );
