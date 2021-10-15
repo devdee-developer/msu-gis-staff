@@ -421,7 +421,7 @@ function getInitial(_callback) {
       // response.data = CryptoJSAesJson.decrypt(response.data, secret_key_aes);
       var profile = response.data;
       if (response.status == true) {
-        clearInitial();
+        // clearInitial();
         localStorage.setItem("profile",JSON.stringify(profile) );
         setProfile();
       } else {

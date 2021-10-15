@@ -754,6 +754,9 @@ button.cancel_noti {
 #urgent_noti_page .UrgentDetailElder .camera_detail .imgDetail {
   display: flex;
 }
+.UrgentDetailElder{
+  background-color:#F7F5FC ;
+}
 /* ----------------------------------------------------------------------------- end : urgent_noti_page ----------------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------------- start : notifications_urgent_noti_page ----------------------------------------------------------------------------- */
@@ -917,5 +920,30 @@ button.cancel_noti {
   right: -8%;
   transform: translateY(-50%);
 }
+.elder_infomation{
+  background-color: #FFFFFF;
 
+ 
+  
+}
+.elder_infomation .header_infomation{
+  padding: 19px;
+  color:#010979;
+  font-size: 23px;
+  border-bottom: 2px solid #E4EBEB;
+}
+.information_group{
+  flex-direction: row;
+  display: flex;
+}
+
+.elder_infomation .elder_infomation_detail{
+  padding: 19px;
+}
+.information_group .infomation_label{
+ width: 100px;
+}
+.information_group .infomation_detail{
+
+}
 /* ----------------------------------------------------------------------------- end : urgent_noti_elder_list_page ----------------------------------------------------------------------------- */
