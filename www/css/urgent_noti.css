@@ -111,7 +111,7 @@
 /* ----------------------------------------------------------------------------- start : urgent_noti_page ----------------------------------------------------------------------------- */
 #urgent_noti_page .edit_title_disabled {
   border-width: 3px;
-  border-color: #d7d5e2;
+  border-color: #0D0E12;
   padding: 3px;
   border-style: solid;
   border-radius: 20px;
@@ -941,9 +941,35 @@ button.cancel_noti {
   padding: 19px;
 }
 .information_group .infomation_label{
+  color:#3B3D48;
  width: 100px;
 }
 .information_group .infomation_detail{
-
+color: #010979;
+}
+.input-field-emergency {
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  padding-left: 45px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  border: 1px solid #dccffe;
+  height: 50px;
+  font-family: Prompt;
+  color: #010979;
+  font-size: 16px;
+}
+.input-field-emergency:read-only {
+background-color: #F7F5FC;
+}
+button.receive_emergency{
+  background-color: #1BC3A2!important;
+}
+button.receive_emergency:disabled{
+  background-color: #B9C4E1!important;
 }
 /* ----------------------------------------------------------------------------- end : urgent_noti_elder_list_page ----------------------------------------------------------------------------- */

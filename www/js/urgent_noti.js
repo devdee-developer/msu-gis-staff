@@ -759,6 +759,8 @@ $("#modal-save-confirm-urgent-noti button.submit_save_noti").on(
               setTimeout(function () {
                 // changePage("home_page", function () {});
                 $(".menu_home_page").click();
+
+                
               }, 500);
             } else {
               alert("ดำเนินการไม่สำเร็จ");
@@ -1442,11 +1444,12 @@ function initialNotificationDetailUrgentNotiPageFunc(
   $(
     "#urgent_noti_page .content .backformap .backformap_to_notifications_page_btn"
   ).show();
+ 
   $("#urgent_noti_page .content .backformap").addClass("to_notifications");
   $("#urgent_noti_page .urgent_noti_page_header .title").hide();
   $("#urgent_noti_page .urgent_noti_page_header .noti_header_btn").hide();
   $("#urgent_noti_page .content .backformap .card-body").eq(0).hide();
- 
+  validateEmergencyForm()
   if (FLAG == "Last") {
     TempElderUrgentNoti = notiLast.filter(
       (x) => x.ID == ID && x.EMC_DATE == EMC_DATE
@@ -1455,6 +1458,20 @@ function initialNotificationDetailUrgentNotiPageFunc(
     TempElderUrgentNoti = notiCurrent.filter(
       (x) => x.ID == ID && x.EMC_DATE == EMC_DATE
     )[0];
+  }
+  if(TempElderUrgentNoti.ADMIN_ID){
+    $(
+      "#urgent_noti_page .content .backformap .receive_emergency"
+    ).hide();
+    
+   $('#admin_desc').attr('readonly',true)
+     $('#admin_send').attr('readonly',true)
+  }else{
+    $('#admin_send').val('')
+    $('#admin_desc').val('')
+    $(
+      "#urgent_noti_page .content .backformap .receive_emergency"
+    ).show();
   }
 
   renderElderCardNotificationDetailUrgentNoti(TempElderUrgentNoti);
@@ -1488,12 +1505,21 @@ function initialNotificationDetailUrgentNotiPageFunc(
   }
   $("#urgent_noti_page .elder_infomation .elder_name").text(`${TempElderUrgentNoti.ELDER_NAME}`); 
   $("#urgent_noti_page .elder_infomation .elder_age").text(`${TempElderUrgentNoti.ELDER_AGE}`); 
+  if(TempElderUrgentNoti.CONTACT_TEL){
+    $("#urgent_noti_page .elder_infomation .contact_tel").text(`${TempElderUrgentNoti.CONTACT_TEL}`); 
+    $("#urgent_noti_page .elder_infomation  #tel_contact_tel p a").attr('herf',`tel:${TempElderUrgentNoti.CONTACT_TEL}`); 
+    $("#urgent_noti_page .information_group_tel").show()
+  }else{
+    $("#urgent_noti_page .information_group_tel").hide()
+    
+  }
+ 
   let urgentDetailTime = dateStringFormat(TempElderUrgentNoti["EMC_DATE"]);
   $("#urgent_noti_page .UrgentDetailElder #urgentDetailTime").text(
     urgentDetailTime
   );
   $("#urgent_noti_page .UrgentDetailElder #urgentDetailDisease").text(
-    "หมายเหตุ: " + TempElderUrgentNoti["EMC_NAME"]
+    "เหตุด่วน: " + TempElderUrgentNoti["EMC_NAME"]
   );
   $("#urgent_noti_page .UrgentDetailElder #urgentDetailDiseaseDetail").text(
     TempElderUrgentNoti["EMC_DESC"]
@@ -1542,10 +1568,6 @@ function initialNotificationDetailUrgentNotiPageFunc(
     );
     
   // renderElderImgNotificationDetailUrgentNoti(TempElderUrgentNoti["EMC_PIC"]);
-
-  $("#urgent_noti_page .UrgentDetailElder #edit_title_text").addClass(
-    "edit_title_text"
-  );
   $("#urgent_noti_page .UrgentDetailElder #edit_title").addClass(
     "edit_title_disabled"
   );
@@ -1621,7 +1643,7 @@ $(
   "#urgent_noti_page .content .backformap .backformap_to_notifications_page_btn"
 ).on("click", function () {
   changePage("notifications_urgent_noti_page", function () {
-    initialNotificationUrgentNotiPageFunc();
+    // initialNotificationUrgentNotiPageFunc();
   });
 });
 // ปุ่ม backtomapหน้าnotifications_detail
@@ -1639,4 +1661,43 @@ $("#urgent_noti_page .content .backformap .backformap_urgent_detail_btn").on(
     );
   }
 );
+$("#urgent_noti_page .receive_emergency").on('click',function(){
+ let postData = {...TempElderUrgentNoti,ADMIN_ID:getProfile().ID,ADMIN_DESC:$('#admin_desc').val(),ADMIN_SEND:$('#admin_send').val(),EMERGENCY_STATUS:1}
+ console.log(postData)
+ callAPI(
+  `${api_base_url}/saveEmergency`,
+  "POST",
+  JSON.stringify({ token: token.getUserToken(),...postData }),
+  (res) => {
+    loading.hide();
+    $("#notifications_urgent_noti_page .footer_item.menu_urgent_page").click();
+    modalDialog('ดำเนินการสำเร็จ','รับแจ้งเหตุแล้ว')
+    setTimeout(function(){
+      $('.modal').fadeOut(500)
+    },2000)
+  },
+  (err) => {
+    loading.hide();
+    modalDialog('ดำเนินการไม่สำเร็จ','โปรดลองอีกครั้ง หรือติดต่อเจ้าหน้าที่','alert')
+  
+    console.log(err);
+  }
+);
+
+})
+function validateEmergencyForm(){
+  let admin_desc = $('#admin_desc').val()
+  let admin_send = $('#admin_send').val()
+  console.log('test')
+  if(admin_desc&&admin_send){
+    $('.receive_emergency').prop('disabled',false)
+
+  }else{
+    $('.receive_emergency').prop('disabled',true)
+  }
+ 
+}
+$('.emergency-form').on('keyup',debounce(()=>{
+  validateEmergencyForm()
+},500))
 /* ----------------------------------------------------------------------------- end : notifications_detail_urgent_noti_page ----------------------------------------------------------------------------- */

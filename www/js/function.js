@@ -297,6 +297,10 @@ function setProfile() {
     // });
  
 }
+function getProfile (){
+  let profile =   JSON.parse(localStorage.getItem("profile")) ;
+  return profile
+}
 function showModal(_modal, _callback = function () {}) {
   $("#" + _modal).fadeIn(200, () => {
     $("body").addClass("modal-open");

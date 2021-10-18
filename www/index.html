@@ -5600,7 +5600,7 @@
             <div id="edit_title">
               <h4
                 id="edit_title_text"
-                style="align-items: center; display: flex; color: #010979"
+                style="align-items: center; display: flex; color: #0D0E12;"
               >
                 <img id="edit_icon" src="img/edit_icon.png" />
                 &nbsp;รายละเอียด
@@ -5664,14 +5664,23 @@
                <div class="infomation_label">อายุ</div>
                <div class="infomation_detail elder_age"></div>
               </div>
-              <div class="information_group">
+              <div class="information_group information_group_tel">
+               <div class="infomation_label">ผู้ดูแล</div>
+               <div class="infomation_detail contact_tel">0653436667</div>
+               <div class="tel" id="tel_contact_tel">
+                <p><a href="tel:0899999999" style="color: #FFFFFF;
+                  text-decoration: none">โทรออก</a></p>
+               </div>
+              </div>
+          
+              <!-- <div class="information_group">
                <div class="infomation_label">สถานะสุขภาพ</div>
                <div class="infomation_detail elder_name"></div>
               </div>
               <div class="information_group">
                <div class="infomation_label">โรคประจำตัว</div>
                <div class="infomation_detail elder_name">ชื่อผู้สูงอายุ</div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div
@@ -5681,7 +5690,7 @@
             <div id="edit_title">
               <h4
                 id="edit_title_text"
-                style="align-items: center; display: flex; color: #010979"
+                style="align-items: center; display: flex; color: #0D0E12;"
               >
                 <img id="edit_icon" src="img/edit_icon.png" />
                 &nbsp;รายละเอียด
@@ -5711,8 +5720,37 @@
           >
             <p id="urgentDetailDiseaseDetail"></p>
           </div>
+          <div
+            style="
+              width: 100%;
+              color: #0d0e12;
+              font-size: 18px;
+              padding: 1rem;
+              border-bottom: 2px solid #d7d5e2;
+              margin-bottom: 20px;
+            "
+          >
+            <input
+            id="admin_send"
+            class="input-field-emergency emergency-form"
+            style="text-align: left"
+            type="text"
+            placeholder="นำส่ง"
+
+          />
+          <textarea
+            id="admin_desc"
+            class="input-field-emergency emergency-form"
+            style="height: unset; text-align: left"
+            placeholder="รายละเอียด"
+            rows="10"
+            cols="50"
+          ></textarea>
+          </div>
+
           <div class="camera_detail"></div>
-          <div style="height: 225px"></div>
+      
+          <div style="height: 120px;"></div>
         </div>
         <div class="backformap">
           <div class="card-body">
@@ -5745,6 +5783,12 @@
             >
               กลับ
             </button>
+            <button
+            class="receive_emergency"  
+            style="display: none"
+          >
+            รับเหตุ
+          </button>
             <button class="backformap_urgent_detail_btn" style="display: none">
               กลับ
             </button>
@@ -6148,6 +6192,25 @@
         </div>
       </div>
     </div>
+    <div
+    id="modal-receive-urgent-noti"
+    class="modal"
+    style="z-index: 99999999999"
+  >
+    <div class="modal-container-tutorial-urgent-noti">
+      <p style="font-size: 30px; color: #1bc3a2">
+        <b>ดำเนินการสำเร็จ</b>
+      </p>
+      <p style="font-size: 20px; color: #3b3d48">
+        <b>รับแจ้งเหตุแล้ว</b>
+      </p>
+      <img
+        id="saveimgurgent"
+        style="width: 120px"
+        src="img/evaluate_success.png"
+      />
+    </div>
+  </div>
     <div id="modal-profile-save-success" class="modal">
       <div class="modal-container-evaluate-alert">
         <p style="font-size: 30px; color: #1bc3a2">

@@ -47,7 +47,10 @@ $(function () {
             );
           });
         }
-        setProfile();
+        getInitial(function(){
+          setProfile();
+        })
+       
         calHomeButtonPosition();
       
         loading.show();
