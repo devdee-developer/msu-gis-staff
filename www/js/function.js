@@ -252,7 +252,7 @@ function calHomeButtonPosition() {
   $(".main_home_menu_item_wrapper img").eq(3).css("margin-left", "10px");
 }
 function setProfile() {
- 
+  $(".profile_header_wrapper img").remove();
     let profile =   JSON.parse(localStorage.getItem("profile")) ;
     console.log(profile)
     function id_card_format(idcard) {

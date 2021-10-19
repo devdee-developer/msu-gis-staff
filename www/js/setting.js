@@ -40,8 +40,12 @@ $(function () {
     showModal("modal-in-progress");
   });
   // ปุ่มคู่มือ
+
   $("#setting_page #manual_setting").on("click", function () {
     showModal("modal-in-progress");
+  });
+  $("#setting_page #about-us").on("click", function () {
+    window.open('https://vhvgis.com/');
   });
   // ปุ่มคู่อัพเดท
   $("#setting_page #update_setting").on("click", function () {

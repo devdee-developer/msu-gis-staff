@@ -3,21 +3,29 @@ $(".menu_map_page").on("click", function () {
   loading.show();
   var status = navigator.onLine;
   if (status) {
-    if (CurrentPosUrgentNoti) {
+    getCurrentPosition().then(function (pos) {
       changePage("map_page", function () {
         initialMapPageFunc();
         setTimeout(function () {
           loading.hide();
         }, 500);
       });
-    } else {
-      loading.hide();
-      let chkPos = confirm("กรุณาอุนญาติตำแหน่ง");
-      if (chkPos) {
-        document.addEventListener("deviceready", onDeviceMapPageReady, false);
-      } else {
-      }
-    }
+    });
+    // if (CurrentPosUrgentNoti) {
+    //   changePage("map_page", function () {
+    //     initialMapPageFunc();
+    //     setTimeout(function () {
+    //       loading.hide();
+    //     }, 500);
+    //   });
+    // } else {
+    //   loading.hide();
+    //   let chkPos = confirm("กรุณาอุนญาติตำแหน่ง");
+    //   if (chkPos) {
+    //     document.addEventListener("deviceready", onDeviceMapPageReady, false);
+    //   } else {
+    //   }
+    // }
   } else {
     alert("กรุณาเชื่อมต่ออินเตอร์เน็ต");
     loading.hide();
@@ -58,17 +66,18 @@ let MapPagedirectionsRenderer;
 let markers = [];
 let PosCurrent;
 function initialMapPageFunc() {
-  queryGetIdProvinceByVhv(function (res) {
-    if (res.length > 0) {
-      $.each(res, function (key, value) {
-        if (key == 0) {
-          gisProvinces = value.GIS_PROVINCE;
-        } else {
-          gisProvinces += "," + value.GIS_PROVINCE;
-        }
-      });
-    }
-  });
+  // queryGetIdProvinceByVhv(function (res) {
+  //   if (res.length > 0) {
+  //     $.each(res, function (key, value) {
+  //       if (key == 0) {
+  //         gisProvinces = value.GIS_PROVINCE;
+  //       } else {
+  //         gisProvinces += "," + value.GIS_PROVINCE;
+  //       }
+  //     });
+  //   }
+  // });
+  gisProvinces = getProfile().GIS_PROVINCE;
   let PosLocal = false;
   if (PosLocal) {
     PosCurrent = {
@@ -77,8 +86,8 @@ function initialMapPageFunc() {
     };
   } else {
     PosCurrent = {
-      lat: CurrentPosUrgentNoti.coords.latitude,
-      long: CurrentPosUrgentNoti.coords.longitude,
+      lat: CURRENT_LAT,
+      long: CURRENT_LONG,
     };
   }
 
@@ -110,24 +119,55 @@ function initialelderFunc() {
   $(
     "#map_page .content .selecePosition .card-body .btn_select_group button#elder"
   ).addClass("active");
-  queryALL("VHV_TR_ELDER", function (res) {
-    ListElderMap = res;
-    $.each(ListElderMap, function (index, row) {
-      if (row.ELDER_LAT != "null" && row.ELDER_LONG != "null") {
-        row.DISTANCE = getDistanceFromLatLonInKm(
-          PosCurrent.lat,
-          PosCurrent.long,
-          row.ELDER_LAT,
-          row.ELDER_LONG
-        ).toFixed(1);
-      } else {
-        row.DISTANCE = "N/A";
+  // queryALL("VHV_TR_ELDER", function (res) {
+  //   ListElderMap = res;
+  //   $.each(ListElderMap, function (index, row) {
+  //     if (row.ELDER_LAT != "null" && row.ELDER_LONG != "null") {
+  //       row.DISTANCE = getDistanceFromLatLonInKm(
+  //         PosCurrent.lat,
+  //         PosCurrent.long,
+  //         row.ELDER_LAT,
+  //         row.ELDER_LONG
+  //       ).toFixed(1);
+  //     } else {
+  //       row.DISTANCE = "N/A";
+  //     }
+  //     row.CURRENT_LAT = PosCurrent.lat;
+  //     row.CURRENT_LONG = PosCurrent.long;
+  //   });
+  //   MarkerMap(ListElderMap);
+  // });
+  callAPI(
+    `${api_base_url}/getAllEmergency`,
+    "POST",
+    JSON.stringify({ token: token.getUserToken() }),
+    (res) => {
+      loading.hide();
+      if (res.status == true) {
+        ListElderMap = res.data;
+        $.each(ListElderMap, function (index, row) {
+          if (row.ELDER_LAT != null && row.ELDER_LONG != null) {
+            row.DISTANCE = getDistanceFromLatLonInKm(
+              PosCurrent.lat,
+              PosCurrent.long,
+              row.ELDER_LAT,
+              row.ELDER_LONG
+            ).toFixed(1);
+          } else {
+            row.DISTANCE = "N/A";
+          }
+          row.CURRENT_LAT = PosCurrent.lat;
+          row.CURRENT_LONG = PosCurrent.long;
+        });
+        console.log(ListElderMap)
+        MarkerMap(ListElderMap);
       }
-      row.CURRENT_LAT = PosCurrent.lat;
-      row.CURRENT_LONG = PosCurrent.long;
-    });
-    MarkerMap(ListElderMap);
-  });
+    },
+    (err) => {
+      loading.hide();
+      console.log(err);
+    }
+  );
 }
 
 function MarkerMap(arr) {
@@ -538,7 +578,7 @@ function initialofficeFunc() {
       if (res.status) {
         ListOfficeMap = res.data.data;
         $.each(ListOfficeMap, function (index, row) {
-          if (row.OFFICE_LAT != "null" && row.OFFICE_LONG != "null") {
+          if (row.OFFICE_LAT != null && row.OFFICE_LONG != null) {
             row.DISTANCE = getDistanceFromLatLonInKm(
               PosCurrent.lat,
               PosCurrent.long,
@@ -606,7 +646,7 @@ function initialshphFunc() {
       if (res.status) {
         ListShphMap = res.data.data;
         $.each(ListShphMap, function (index, row) {
-          if (row.SHPH_LAT != "null" && row.SHPH_LONG != "null") {
+          if (row.SHPH_LAT != null&& row.SHPH_LONG != null) {
             row.DISTANCE = getDistanceFromLatLonInKm(
               PosCurrent.lat,
               PosCurrent.long,
@@ -907,8 +947,7 @@ $("#map_elder_list_page .urgent_noti_page_header .back_header_btn").on(
   }
 );
 
-
-$('.map_header_btn').on('click',function(){
-    $('#map_page .footer_item.menu_map_page').click()
-})
+$(".map_header_btn").on("click", function () {
+  $("#map_page .footer_item.menu_map_page").click();
+});
 /* ----------------------------------------------------------------------------- end : map_elder_list_page ----------------------------------------------------------------------------- */

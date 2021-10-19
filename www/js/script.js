@@ -83,94 +83,94 @@ $(function () {
     .on("click", function () {
       $('#home_page .footer_item.menu_urgent_page').click()
     });
-  $(".btn_submit_login").on("click", function () {
-    let username = $("#username").val();
-    let password = $("#password").val();
-    loading.show();
-    login(
-      username,
-      password,
-      0,
-      0,
-      0,
-      function (res) {
-        loading.hide();
-        changePage("home_page", function () {
-          calHomeButtonPosition();
-          loading.show();
-          getInitial(function () {
-            initSlideHomePage();
-          });
-        });
-      },
-      function (err) {
-        loading.hide();
-        alert(err);
-      }
-    );
-  });
   // $(".btn_submit_login").on("click", function () {
   //   let username = $("#username").val();
   //   let password = $("#password").val();
   //   loading.show();
-  //   document.addEventListener("deviceready", onDeviceReady, false);
-  //   function onDeviceReady() {
-  //     navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-  //       enableHighAccuracy: true,
-  //     });
-  //   }
-  //   function onSuccess(pos) {
-  //     CurrentPosUrgentNoti = pos;
-  //     cordova.plugins.firebase.messaging.getToken().then(function (token) {
-  //       console.log("Got device token: ", token);
-
-  //       login(
-  //         username,
-  //         password,
-  //         CurrentPosUrgentNoti.coords.latitude,
-  //         CurrentPosUrgentNoti.coords.longitude,
-  //         token,
-  //         function (res) {
-  //           loading.hide();
-  //           changePage("home_page", function () {
-  //             calHomeButtonPosition();
-  //             loading.show();
-  //             getInitial(function () {
-  //               initSlideHomePage();
-  //             });
-  //           });
-  //         },
-  //         function (err) {
-  //           loading.hide();
-  //           alert(err);
-  //         }
-  //       );
-  //     });
-  //   }
-  //   function onError(error) {
-  //     login(
-  //       username,
-  //       password,
-  //       0,
-  //       0,
-  //       0,
-  //       function (res) {
-  //         loading.hide();
-  //         changePage("home_page", function () {
-  //           calHomeButtonPosition();
-  //           loading.show();
-  //           getInitial(function () {
-  //             initSlideHomePage();
-  //           });
+  //   login(
+  //     username,
+  //     password,
+  //     0,
+  //     0,
+  //     0,
+  //     function (res) {
+  //       loading.hide();
+  //       changePage("home_page", function () {
+  //         calHomeButtonPosition();
+  //         loading.show();
+  //         getInitial(function () {
+  //           initSlideHomePage();
   //         });
-  //       },
-  //       function (err) {
-  //         loading.hide();
-  //         alert(err);
-  //       }
-  //     );
-  //   }
+  //       });
+  //     },
+  //     function (err) {
+  //       loading.hide();
+  //       alert(err);
+  //     }
+  //   );
   // });
+  $(".btn_submit_login").on("click", function () {
+    let username = $("#username").val();
+    let password = $("#password").val();
+    loading.show();
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+      navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        enableHighAccuracy: true,
+      });
+    }
+    function onSuccess(pos) {
+      CurrentPosUrgentNoti = pos;
+      cordova.plugins.firebase.messaging.getToken().then(function (token) {
+        console.log("Got device token: ", token);
+
+        login(
+          username,
+          password,
+          CurrentPosUrgentNoti.coords.latitude,
+          CurrentPosUrgentNoti.coords.longitude,
+          token,
+          function (res) {
+            loading.hide();
+            changePage("home_page", function () {
+              calHomeButtonPosition();
+              loading.show();
+              getInitial(function () {
+                initSlideHomePage();
+              });
+            });
+          },
+          function (err) {
+            loading.hide();
+            alert(err);
+          }
+        );
+      });
+    }
+    function onError(error) {
+      login(
+        username,
+        password,
+        0,
+        0,
+        0,
+        function (res) {
+          loading.hide();
+          changePage("home_page", function () {
+            calHomeButtonPosition();
+            loading.show();
+            getInitial(function () {
+              initSlideHomePage();
+            });
+          });
+        },
+        function (err) {
+          loading.hide();
+          alert(err);
+        }
+      );
+    }
+  });
 
   $(".menu_home_page").on("click", function () {
     changePage("home_page", function () {

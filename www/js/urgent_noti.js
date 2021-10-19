@@ -1,5 +1,7 @@
 var swiper_urgent_noti;
 let toturialvideo = document.getElementById("toturialvideo");
+var CURRENT_LAT
+var CURRENT_LONG
 $(function () {
   $(".footer_item.menu_urgent_page").on("click", function () {
     loading.show();
@@ -51,56 +53,59 @@ function fetchEmergency(){
   notiCurrent=[]
   notiLast=[]
   loading.show();
-  callAPI(
-    `${api_base_url}/getAllEmergency`,
-    "POST",
-    JSON.stringify({ token: token.getUserToken() }),
-    (res) => {
-      loading.hide();
-      if(res.status==true){
-        let data = res.data
-        console.log(res);
-        data.sort((a, b) => (a.ID < b.ID ? 1 : -1));
-        var d = new Date();
-        var month = d.getMonth() + 1;
-        var day = d.getDate();
-        var dateText =
-          d.getFullYear() +
-          "-" +
-          (("" + month).length < 2 ? "0" : "") +
-          month +
-          "-" +
-          (("" + day).length < 2 ? "0" : "") +
-          day;
-          $.each(data, function (index, row) {
-        
-            if (dateText == row.EMC_DATE.substring(0, 10)) {
-             
-              notiCurrent.push(
-                mapDataNotifications( row, "Current")
-              );
-             
-              renderNotificationsList(notiCurrent, "Current");
-             
-            } else {
-              notiLast.push(
-                mapDataNotifications( row, "Last")
-              );
-             
-              renderNotificationsList(notiLast, "Last");
+  getCurrentPosition().then(function(pos){
+    callAPI(
+      `${api_base_url}/getAllEmergency`,
+      "POST",
+      JSON.stringify({ token: token.getUserToken() }),
+      (res) => {
+        loading.hide();
+        if(res.status==true){
+          let data = res.data
+          console.log(res);
+          data.sort((a, b) => (a.ID < b.ID ? 1 : -1));
+          var d = new Date();
+          var month = d.getMonth() + 1;
+          var day = d.getDate();
+          var dateText =
+            d.getFullYear() +
+            "-" +
+            (("" + month).length < 2 ? "0" : "") +
+            month +
+            "-" +
+            (("" + day).length < 2 ? "0" : "") +
+            day;
+            $.each(data, function (index, row) {
           
-            }
+              if (dateText == row.EMC_DATE.substring(0, 10)) {
+               
+                notiCurrent.push(
+                  mapDataNotifications( row, "Current")
+                );
+                
+                renderNotificationsList(notiCurrent, "Current");
+               
+              } else {
+                notiLast.push(
+                  mapDataNotifications( row, "Last")
+                );
+               
+                renderNotificationsList(notiLast, "Last");
+            
+              }
+             
            
-         
-          });
+            });
+        }
+     
+      },
+      (err) => {
+        loading.hide();
+        console.log(err);
       }
-   
-    },
-    (err) => {
-      loading.hide();
-      console.log(err);
-    }
-  );
+    );
+  })
+  
 }
 function onDeviceUrgentPageReady() {
   navigator.geolocation.getCurrentPosition(
@@ -113,6 +118,8 @@ function onDeviceUrgentPageReady() {
 }
 function onSuccessUrgentPage(pos) {
   CurrentPosUrgentNoti = pos;
+  CURRENT_LAT = pos.coords.latitude
+  CURRENT_LONG = pos.coords.longitude
   changePage("map_page", function () {
     initialMapPageFunc();
     setTimeout(function () {
@@ -123,6 +130,25 @@ function onSuccessUrgentPage(pos) {
 function onErrorUrgentPage(error) {
   alert("ไม่สามารถเข้าถึงตำแหน่งได้");
 }
+function getCurrentPosition(){
+  return new Promise ((resolve,reject)=>{
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        CURRENT_LAT = pos.coords.latitude
+        CURRENT_LONG = pos.coords.longitude
+        resolve(pos)
+      },
+      function(){
+        reject("ไม่สามารถเข้าถึงตำแหน่งได้")
+        alert("ไม่สามารถเข้าถึงตำแหน่งได้")
+      },
+      {
+        enableHighAccuracy: true,
+      }
+    );
+  })
+  
+}
 var markerOriginal;
 var infowindowOriginal;
 var markerDestination;
@@ -130,6 +156,7 @@ var infowindowDestination;
 
 var directionsService;
 var directionsRenderer;
+
 // var CurrentPosUrgentNoti;
 var ListElderUrgentNoti;
 var TempElderUrgentNoti;
@@ -613,7 +640,7 @@ function calculateAndDisplayRoute(
 }
 function MarkerUrgentNotiPage(_name, _posDestination) {
   // Create markerDestination.
-  console.log(_posDestination)
+  // console.log(_posDestination)
   markerDestination = new google.maps.Marker({
     position: _posDestination,
     icon: "img/pin_marker.png",
@@ -1198,11 +1225,12 @@ function mapDataNotifications( row, FLAG) {
   res.ADMIN_DATE = row.ADMIN_DATE;
   res.ADMIN_DESC = row.ADMIN_DESC;
   res.ADMIN_SEND = row.ADMIN_SEND;
+ 
   if (res.ELDER_LAT != null && res.ELDER_LONG != null) {
     res.DISTANCE = getDistanceFromLatLonInKm(
       // CurrentPosUrgentNoti.coords.latitude,
       // CurrentPosUrgentNoti.coords.longitude,
-      13.6577024,99.8899712,
+      CURRENT_LAT,CURRENT_LONG,
       res.ELDER_LAT,
       res.ELDER_LONG
     ).toFixed(1);
@@ -1210,10 +1238,10 @@ function mapDataNotifications( row, FLAG) {
     res.DISTANCE = "N/A";
   }
   res.ELDER_AGE = getAge(row.ELDER_BIRTHDATE);
-  res.CURRENT_LAT =13.6577024;
-  res.CURRENT_LONG = 99.8899712;
-  // res.CURRENT_LAT = CurrentPosUrgentNoti.coords.latitude;
-  // res.CURRENT_LONG = CurrentPosUrgentNoti.coords.longitude;
+  // res.CURRENT_LAT =13.6577024;
+  // res.CURRENT_LONG = 99.8899712;
+  res.CURRENT_LAT = CURRENT_LAT;
+  res.CURRENT_LONG = CURRENT_LONG;
 
   // res.EMC_NAME = EMC_NAME;
   res.ELDER_AVATAR = row.ELDER_AVATAR
@@ -1449,7 +1477,7 @@ function initialNotificationDetailUrgentNotiPageFunc(
   $("#urgent_noti_page .urgent_noti_page_header .title").hide();
   $("#urgent_noti_page .urgent_noti_page_header .noti_header_btn").hide();
   $("#urgent_noti_page .content .backformap .card-body").eq(0).hide();
-  validateEmergencyForm()
+
   if (FLAG == "Last") {
     TempElderUrgentNoti = notiLast.filter(
       (x) => x.ID == ID && x.EMC_DATE == EMC_DATE
@@ -1463,17 +1491,22 @@ function initialNotificationDetailUrgentNotiPageFunc(
     $(
       "#urgent_noti_page .content .backformap .receive_emergency"
     ).hide();
+    console.log(TempElderUrgentNoti)
+    $('#admin_send').val(TempElderUrgentNoti.ADMIN_SEND)
+    $('#admin_desc').val(TempElderUrgentNoti.ADMIN_DESC)
     
    $('#admin_desc').attr('readonly',true)
      $('#admin_send').attr('readonly',true)
   }else{
+    $('#admin_desc').attr('readonly',false)
+    $('#admin_send').attr('readonly',false)
     $('#admin_send').val('')
     $('#admin_desc').val('')
     $(
       "#urgent_noti_page .content .backformap .receive_emergency"
     ).show();
   }
-
+  
   renderElderCardNotificationDetailUrgentNoti(TempElderUrgentNoti);
   initMapUrgentNotiPage(TempElderUrgentNoti["ELDER_LAT"],  TempElderUrgentNoti["ELDER_LONG"])
   MarkerUrgentNotiPage(
@@ -1491,11 +1524,17 @@ function initialNotificationDetailUrgentNotiPageFunc(
   ) {
     $(
       "#urgent_noti_page .UrgentDetailElder .elder_list_urgent_detail"
+    ).removeClass("waiting_answer");
+    $(
+      "#urgent_noti_page .UrgentDetailElder .elder_list_urgent_detail"
     ).addClass("answered");
     $("#urgent_noti_page .UrgentDetailElder .elder_list_urgent_detail p").text(
       "สถานะ : ตอบรับแล้ว"
     );
   } else {
+    $(
+      "#urgent_noti_page .UrgentDetailElder .elder_list_urgent_detail"
+    ).removeClass("answered");
     $(
       "#urgent_noti_page .UrgentDetailElder .elder_list_urgent_detail"
     ).addClass("waiting_answer");
@@ -1524,6 +1563,7 @@ function initialNotificationDetailUrgentNotiPageFunc(
   $("#urgent_noti_page .UrgentDetailElder #urgentDetailDiseaseDetail").text(
     TempElderUrgentNoti["EMC_DESC"]
   );
+  validateEmergencyForm()
   TempElderUrgentNoti.EMC_PIC = []
     callAPI(
       `${api_base_url}/getEmergencyInfo`,
@@ -1550,6 +1590,9 @@ function initialNotificationDetailUrgentNotiPageFunc(
           res.data["EMC_PIC5"] != null
             ? TempElderUrgentNoti.EMC_PIC.push(res.data["EMC_PIC5"])
             : "";
+          TempElderUrgentNoti.ADMIN_DESC = res.data["ADMIN_DESC"]
+          $('#admin_desc').val(res.data["ADMIN_DESC"])
+          validateEmergencyForm()
           loading.hide();
           renderElderImgNotificationDetailUrgentNoti(
             TempElderUrgentNoti["EMC_PIC"]
