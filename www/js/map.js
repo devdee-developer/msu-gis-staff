@@ -138,7 +138,7 @@ function initialelderFunc() {
   //   MarkerMap(ListElderMap);
   // });
   callAPI(
-    `${api_base_url}/getAllEmergency`,
+    `${api_base_url}/getUniqueElderEmergency `,
     "POST",
     JSON.stringify({ token: token.getUserToken() }),
     (res) => {

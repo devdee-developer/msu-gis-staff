@@ -262,17 +262,17 @@ function setProfile() {
       return return_text;
     }
     if (profile.VHV_SEX == 2) {
-      $(".profile_header_wrapper").append('<img src ="img/osomo-w.png"/>');
+      $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
       $(".card_header_profile .card_header_thumbnail").attr(
         "src",
-        "img/osomo-w.png"
+        "img/staff_icon.png"
       );
     } else {
-      $(".profile_header_wrapper").append('<img src ="img/osomo-m.png"/>');
+      $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
 
       $(".card_header_profile .card_header_thumbnail").attr(
         "src",
-        "img/osomo-m.png"
+        "img/staff_icon.png"
       );
     }
 
