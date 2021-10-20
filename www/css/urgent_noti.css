@@ -57,7 +57,7 @@
   width: 350px !important;
   top: 0 !important;
   left: 0 !important;
-  background-color: #f53f4d !important;
+  background-color: #ffffff !important;
   box-shadow: unset !important;
   border: unset !important;
   border-radius: 2px 2px 0 0;
@@ -94,7 +94,7 @@
 .gm-style .gm-style-iw-t::after {
   background: linear-gradient(
     45deg,
-    #f53f4d 50%,
+    #ffffff 50%,
     rgba(255, 255, 255, 0) 51%,
     rgba(255, 255, 255, 0) 100%
   ) !important;
