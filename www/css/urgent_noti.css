@@ -834,7 +834,7 @@ button.cancel_noti {
 }
 #notifications_urgent_noti_page .content.grey {
   background-color: #f7f5fc;
-  bottom: 0px;
+  bottom: 70px;
 }
 #notifications_urgent_noti_page .noti_status {
   background-color: #ffffff;
