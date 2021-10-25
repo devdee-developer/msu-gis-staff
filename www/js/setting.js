@@ -51,7 +51,7 @@ $(function () {
   $("#setting_page #update_setting").on("click", function () {
     var platform  = device.platform;
     if(platform == 'Android'){
-      window.open("https://play.google.com/store/apps/details?id=com.meedeem.vhvapp");
+      window.open("https://play.google.com/store/apps/details?id=com.meedeem.vhvstaffapp");
     }else{
       showModal("modal-in-progress");
     }
