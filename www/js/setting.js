@@ -42,7 +42,7 @@ $(function () {
   // ปุ่มคู่มือ
 
   $("#setting_page #manual_setting").on("click", function () {
-    showModal("modal-in-progress");
+    window.open('https://www.myosomo.com/document/user_staff_manual_app.pdf');
   });
   $("#setting_page #about-us").on("click", function () {
     window.open('https://vhvgis.com/');

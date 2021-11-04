@@ -372,7 +372,7 @@ async function login(
       },
     });
   } catch (error) {
-    _error("เกิดข้อผิดพลาด5");
+    _error("การเชื่อมต่อ อินเตอร์เน็ตมีปัญหา โปรดตรวจสอบการเชื่อมต่อ อินเตอร์เน็ต และเข้าระบบใหม่อีกครั้ง");
   }
 }
 async function callAPI(enpoint, method, data, _success, _error) {
