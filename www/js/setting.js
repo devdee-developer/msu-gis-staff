@@ -53,7 +53,7 @@ $(function () {
     if(platform == 'Android'){
       window.open("https://play.google.com/store/apps/details?id=com.meedeem.vhvstaffapp");
     }else{
-      showModal("modal-in-progress");
+      window.open("https://apps.apple.com/us/app/%E0%B8%AD%E0%B8%AA%E0%B8%A1-%E0%B8%9E%E0%B8%A3-%E0%B8%AD%E0%B8%A1-%E0%B9%80%E0%B8%88-%E0%B8%B2%E0%B8%AB%E0%B8%99-%E0%B8%B2%E0%B8%97/id1593180883");
     }
    
   });
