@@ -101,6 +101,8 @@ function initialelderFunc() {
     },
     0
   );
+  $("#map_page .content .MapDirectionIcon").hide();
+  $("#map_page #elderContentFixed .DirectionTime").hide();
   $("#map_page .content .filterPosition #filterShow").show();
   $("#map_page .content .filterPosition #filterHide").hide();
   $("#map_page .content .selecePosition").show();
@@ -159,7 +161,7 @@ function initialelderFunc() {
           row.CURRENT_LAT = PosCurrent.lat;
           row.CURRENT_LONG = PosCurrent.long;
         });
-        console.log(ListElderMap)
+        console.log(ListElderMap);
         MarkerMap(ListElderMap);
       }
     },
@@ -294,6 +296,7 @@ function closeOtherInfo() {
   }
 }
 function routeMap(ID) {
+  $("#map_page .content .MapDirectionIcon").show();
   if (typeDataMap == "elder") {
     TempElderMap = ListElderMap.filter((x) => x.ID == ID)[0];
     let distanceelderText = "ไม่พบพิกัด";
@@ -332,6 +335,25 @@ function routeMap(ID) {
       ),
       TempElderMap["ID"],
       TempElderMap["ELDER_NAME"]
+    );
+    getDistanceMatrix(
+      new google.maps.LatLng(
+        TempElderMap["CURRENT_LAT"],
+        TempElderMap["CURRENT_LONG"]
+      ),
+      new google.maps.LatLng(
+        TempElderMap["ELDER_LAT"],
+        TempElderMap["ELDER_LONG"]
+      ),
+      (response) => {
+        $("#map_page #elderContentFixed .DirectionTime").show();
+        $("#map_page #elderContentFixed .DirectionTime h5")
+          .eq(1)
+          .text(response["rows"][0]["elements"][0]["duration"]["text"]);
+      },
+      (err) => {
+        $("#map_page #elderContentFixed .DirectionTime").hide();
+      }
     );
   } else if (typeDataMap == "office") {
     TempOfficeMap = ListOfficeMap.filter((x) => x.ID == ID)[0];
@@ -372,6 +394,25 @@ function routeMap(ID) {
       TempOfficeMap["ID"],
       TempOfficeMap["OFFICE_NAME"]
     );
+    getDistanceMatrix(
+      new google.maps.LatLng(
+        TempOfficeMap["CURRENT_LAT"],
+        TempOfficeMap["CURRENT_LONG"]
+      ),
+      new google.maps.LatLng(
+        TempOfficeMap["OFFICE_LAT"],
+        TempOfficeMap["OFFICE_LONG"]
+      ),
+      (response) => {
+        $("#map_page #elderContentFixed .DirectionTime").show();
+        $("#map_page #elderContentFixed .DirectionTime h5")
+          .eq(1)
+          .text(response["rows"][0]["elements"][0]["duration"]["text"]);
+      },
+      (err) => {
+        $("#map_page #elderContentFixed .DirectionTime").hide();
+      }
+    );
   } else if (typeDataMap == "shph") {
     TempShphMap = ListShphMap.filter((x) => x.ID == ID)[0];
     let distanceshphText = "ไม่พบพิกัด";
@@ -407,6 +448,22 @@ function routeMap(ID) {
       new google.maps.LatLng(TempShphMap["SHPH_LAT"], TempShphMap["SHPH_LONG"]),
       TempShphMap["ID"],
       TempShphMap["SHPH_NAME"]
+    );
+    getDistanceMatrix(
+      new google.maps.LatLng(
+        TempShphMap["CURRENT_LAT"],
+        TempShphMap["CURRENT_LONG"]
+      ),
+      new google.maps.LatLng(TempShphMap["SHPH_LAT"], TempShphMap["SHPH_LONG"]),
+      (response) => {
+        $("#map_page #elderContentFixed .DirectionTime").show();
+        $("#map_page #elderContentFixed .DirectionTime h5")
+          .eq(1)
+          .text(response["rows"][0]["elements"][0]["duration"]["text"]);
+      },
+      (err) => {
+        $("#map_page #elderContentFixed .DirectionTime").hide();
+      }
     );
   }
 }
@@ -545,6 +602,8 @@ function initialofficeFunc() {
     },
     0
   );
+  $("#map_page .content .MapDirectionIcon").hide();
+  $("#map_page #elderContentFixed .DirectionTime").hide();
   $("#map_page .content .filterPosition #filterShow").show();
   $("#map_page .content .filterPosition #filterHide").hide();
   $("#map_page .content .selecePosition").show();
@@ -613,6 +672,8 @@ function initialshphFunc() {
     },
     0
   );
+  $("#map_page .content .MapDirectionIcon").hide();
+  $("#map_page #elderContentFixed .DirectionTime").hide();
   $("#map_page .content .filterPosition #filterShow").show();
   $("#map_page .content .filterPosition #filterHide").hide();
   $("#map_page .content .selecePosition").show();
@@ -646,7 +707,7 @@ function initialshphFunc() {
       if (res.status) {
         ListShphMap = res.data.data;
         $.each(ListShphMap, function (index, row) {
-          if (row.SHPH_LAT != null&& row.SHPH_LONG != null) {
+          if (row.SHPH_LAT != null && row.SHPH_LONG != null) {
             row.DISTANCE = getDistanceFromLatLonInKm(
               PosCurrent.lat,
               PosCurrent.long,
@@ -949,5 +1010,55 @@ $("#map_elder_list_page .urgent_noti_page_header .back_header_btn").on(
 
 $(".map_header_btn").on("click", function () {
   $("#map_page .footer_item.menu_map_page").click();
+});
+$("#map_page .content .MapDirectionIcon").on("click", function () {
+  var url = "";
+  if (typeDataMap == "elder") {
+    url =
+      "://www.google.com/maps/dir/?api=1&origin=" +
+      TempElderMap["CURRENT_LAT"] +
+      "," +
+      TempElderMap["CURRENT_LONG"] +
+      "&destination=" +
+      TempElderMap["ELDER_LAT"] +
+      "," +
+      TempElderMap["ELDER_LONG"] +
+      "&travelmode=driving";
+  } else if (typeDataMap == "office") {
+    url =
+      "://www.google.com/maps/dir/?api=1&origin=" +
+      TempOfficeMap["CURRENT_LAT"] +
+      "," +
+      TempOfficeMap["CURRENT_LONG"] +
+      "&destination=" +
+      TempOfficeMap["OFFICE_LAT"] +
+      "," +
+      TempOfficeMap["OFFICE_LONG"] +
+      "&travelmode=driving";
+  } else if (typeDataMap == "shph") {
+    url =
+      "://www.google.com/maps/dir/?api=1&origin=" +
+      TempShphMap["CURRENT_LAT"] +
+      "," +
+      TempShphMap["CURRENT_LONG"] +
+      "&destination=" +
+      TempShphMap["SHPH_LAT"] +
+      "," +
+      TempShphMap["SHPH_LONG"] +
+      "&travelmode=driving";
+  }
+  if (url != "") {
+    if (
+      navigator.platform.indexOf("iPhone") != -1 ||
+      navigator.platform.indexOf("iPod") != -1 ||
+      navigator.platform.indexOf("iPad") != -1
+    ) {
+      navigator.app.loadUrl("maps" + url, { openExternal: true });
+    } else {
+      navigator.app.loadUrl("https" + url, { openExternal: true });
+    }
+  } else {
+    alert("ไม่สามารถนำทางได้");
+  }
 });
 /* ----------------------------------------------------------------------------- end : map_elder_list_page ----------------------------------------------------------------------------- */

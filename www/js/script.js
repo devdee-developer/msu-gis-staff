@@ -18,15 +18,15 @@ $(function () {
   //       console.error(error);
   //     }
   //   );
-  
+
   $(".header_notification").hide();
   $(".profile_header_wrapper img").remove();
-  console.log(token.getUserToken())
+  console.log(token.getUserToken());
   if (!token.getUserToken()) {
     changePage("splash_page", function () {});
   } else {
     changePage("home_page", function () {
-      if(localStorage.getItem("profile")){
+      if (localStorage.getItem("profile")) {
         if (!token.getDeviceToken()) {
           cordova.plugins.firebase.messaging.getToken().then(function (token) {
             let postData = {
@@ -47,19 +47,17 @@ $(function () {
             );
           });
         }
-        getInitial(function(){
+        getInitial(function () {
           setProfile();
-        })
-       
+        });
+
         calHomeButtonPosition();
-      
+
         loading.show();
         initSlideHomePage();
-      }else{
+      } else {
         getInitial();
       }
-     
-    
     });
   }
   $(".btn_splash").on("click", function () {
@@ -69,19 +67,19 @@ $(function () {
     });
   });
   $(".main_home_menu_item_wrapper .main_home_menu_item")
-  .eq(0)
-  .on("click", function () {
-    $('#home_page .footer_item.menu_news_page').click()
-  });
+    .eq(0)
+    .on("click", function () {
+      $("#home_page .footer_item.menu_news_page").click();
+    });
   $(".main_home_menu_item_wrapper .main_home_menu_item")
-  .eq(1)
-  .on("click", function () {
-    $('#map_page .footer_item.menu_map_page').click()
-  });
+    .eq(1)
+    .on("click", function () {
+      $("#map_page .footer_item.menu_map_page").click();
+    });
   $(".main_home_menu_item_wrapper .main_home_menu_item")
     .eq(2)
     .on("click", function () {
-      $('#home_page .footer_item.menu_urgent_page').click()
+      $("#home_page .footer_item.menu_urgent_page").click();
     });
   // $(".btn_submit_login").on("click", function () {
   //   let username = $("#username").val();
@@ -213,9 +211,9 @@ $(function () {
   $(".menu_news_page").on("click", function () {
     changePage("news_page", function () {
       $("#news_page .back_header_btn").unbind();
-      $('#news_page .back_header_btn').on('click',function(){
-        $('#home_page .footer_item.menu_home_page').click()
-    })
+      $("#news_page .back_header_btn").on("click", function () {
+        $("#home_page .footer_item.menu_home_page").click();
+      });
       $(".content").animate(
         {
           scrollTop: $(".content").offset().top,

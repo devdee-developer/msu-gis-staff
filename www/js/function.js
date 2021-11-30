@@ -63,15 +63,12 @@ function initSlideNewsPage() {
   });
 }
 function gotoNewsDetailPage(newsno, from_page) {
-  
   $("#news_detail_page .header .back_header_btn").on("click", function () {
     $("#news_page .back_header_btn").unbind();
-    $('#news_page .back_header_btn').on('click',function(){
-      $('#home_page .footer_item.menu_home_page').click()
-  })
-    changePage(from_page, function () {
-   
+    $("#news_page .back_header_btn").on("click", function () {
+      $("#home_page .footer_item.menu_home_page").click();
     });
+    changePage(from_page, function () {});
   });
   changePage("news_detail_page", function () {
     loading.show();
@@ -253,53 +250,56 @@ function calHomeButtonPosition() {
 }
 function setProfile() {
   $(".profile_header_wrapper img").remove();
-    let profile =   JSON.parse(localStorage.getItem("profile")) ;
-    console.log(profile)
-    function id_card_format(idcard) {
-      idcard = idcard.split("");
-      let return_text = `${idcard[0]}-${idcard[1]}${idcard[2]}${idcard[3]}${idcard[4]}-${idcard[5]}${idcard[6]}${idcard[7]}${idcard[8]}${idcard[9]}-${idcard[10]}${idcard[11]}-${idcard[12]}`;
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  console.log(profile);
+  function id_card_format(idcard) {
+    idcard = idcard.split("");
+    let return_text = `${idcard[0]}-${idcard[1]}${idcard[2]}${idcard[3]}${idcard[4]}-${idcard[5]}${idcard[6]}${idcard[7]}${idcard[8]}${idcard[9]}-${idcard[10]}${idcard[11]}-${idcard[12]}`;
 
-      return return_text;
-    }
-    if (profile.VHV_SEX == 2) {
-      $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
-      $(".card_header_profile .card_header_thumbnail").attr(
-        "src",
-        "img/staff_icon.png"
-      );
-    } else {
-      $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
+    return return_text;
+  }
+  if (profile.VHV_SEX == 2) {
+    $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
+    $(".card_header_profile .card_header_thumbnail").attr(
+      "src",
+      "img/staff_icon.png"
+    );
+  } else {
+    $(".profile_header_wrapper").append('<img src ="img/staff_icon.png"/>');
 
-      $(".card_header_profile .card_header_thumbnail").attr(
-        "src",
-        "img/staff_icon.png"
-      );
-    }
+    $(".card_header_profile .card_header_thumbnail").attr(
+      "src",
+      "img/staff_icon.png"
+    );
+  }
 
-    $(".vhv_user").html(`<b>${profile.ADMIN_NAME}</b>`);
-    $(".vhv_occupation").text(`${profile.ADMIN_OCCUPATION?profile.ADMIN_OCCUPATION:''}`);
-    $(".vhv_position").html(`${profile.ADMIN_POSITION?profile.ADMIN_POSITION:'ไม่ระบุ'}`);
-    // $(".vhv_age").text(getAge(profile.VHV_BIRTHDATE, true));
-    // $(".vhv_idcard").text(id_card_format(profile.VHV_IDCARD));
-    // $(".vhv_addr").text(`เลขที่ ${profile.VHV_ADDR}`);
-    // $(".vhv_age").text('อายุ');
-    // $(".vhv_idcard").text('');
-    // $(".vhv_addr").text(`เลขที่ `);
-    $(".header_notification").show();
-    // queryALL("VHV_MA_SHPH", function (vhv_ma_shph) {
-    //   let shph = vhv_ma_shph[0];
-      $(".vhv_shph").text(`${profile.SHPH_NAME}`);
-      // $(".vhv_shph").text(`ชุมชน`);
-    // });
-    // queryALL("VHV_MA_SHPH_MOO", function (vhv_ma_shph_moo) {
-    //   let shph_moo = vhv_ma_shph_moo[0];
-    //   $(".vhv_community").text(`ชุมชน${shph_moo.SHPH_MOONAME}`);
-    // });
- 
+  $(".vhv_user").html(`<b>${profile.ADMIN_NAME}</b>`);
+  $(".vhv_occupation").text(
+    `${profile.ADMIN_OCCUPATION ? profile.ADMIN_OCCUPATION : ""}`
+  );
+  $(".vhv_position").html(
+    `${profile.ADMIN_POSITION ? profile.ADMIN_POSITION : "ไม่ระบุ"}`
+  );
+  // $(".vhv_age").text(getAge(profile.VHV_BIRTHDATE, true));
+  // $(".vhv_idcard").text(id_card_format(profile.VHV_IDCARD));
+  // $(".vhv_addr").text(`เลขที่ ${profile.VHV_ADDR}`);
+  // $(".vhv_age").text('อายุ');
+  // $(".vhv_idcard").text('');
+  // $(".vhv_addr").text(`เลขที่ `);
+  $(".header_notification").show();
+  // queryALL("VHV_MA_SHPH", function (vhv_ma_shph) {
+  //   let shph = vhv_ma_shph[0];
+  $(".vhv_shph").text(`${profile.SHPH_NAME}`);
+  // $(".vhv_shph").text(`ชุมชน`);
+  // });
+  // queryALL("VHV_MA_SHPH_MOO", function (vhv_ma_shph_moo) {
+  //   let shph_moo = vhv_ma_shph_moo[0];
+  //   $(".vhv_community").text(`ชุมชน${shph_moo.SHPH_MOONAME}`);
+  // });
 }
-function getProfile (){
-  let profile =   JSON.parse(localStorage.getItem("profile")) ;
-  return profile
+function getProfile() {
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  return profile;
 }
 function showModal(_modal, _callback = function () {}) {
   $("#" + _modal).fadeIn(200, () => {
@@ -372,7 +372,9 @@ async function login(
       },
     });
   } catch (error) {
-    _error("การเชื่อมต่อ อินเตอร์เน็ตมีปัญหา โปรดตรวจสอบการเชื่อมต่อ อินเตอร์เน็ต และเข้าระบบใหม่อีกครั้ง");
+    _error(
+      "การเชื่อมต่อ อินเตอร์เน็ตมีปัญหา โปรดตรวจสอบการเชื่อมต่อ อินเตอร์เน็ต และเข้าระบบใหม่อีกครั้ง"
+    );
   }
 }
 async function callAPI(enpoint, method, data, _success, _error) {
@@ -426,7 +428,7 @@ function getInitial(_callback) {
       var profile = response.data;
       if (response.status == true) {
         // clearInitial();
-        localStorage.setItem("profile",JSON.stringify(profile) );
+        localStorage.setItem("profile", JSON.stringify(profile));
         setProfile();
       } else {
         alert("เกิดข้อผิดพลาด");
@@ -1149,9 +1151,9 @@ function clearInitial() {
 }
 function dateStringFormat(date) {
   var day = date.substring(8, 10);
- 
-  var month = parseInt(date.substring(5, 7))  - 1;
-  console.log(month)
+
+  var month = parseInt(date.substring(5, 7)) - 1;
+  console.log(month);
   var year = date.substring(0, 4);
   var time = date.substring(11, 16);
   var dateString =
@@ -1341,15 +1343,40 @@ function initialSearchHeaderFunc() {
   $("#qtyitemsearch").hide();
   $(".search_header input").val("");
 }
-function modalDialog(title,sub_title,mode){
-      $('#modal-dialog .title').text(title)
-      $('#modal-dialog .sub-title').text(sub_title)
-    if(mode =='alert'){
-      $('#modal-dialog .title').css("color", "#f26e4f") ;
-      // $('#modal-dialog img').attr('src','')
-    }else{
-      $('#modal-dialog .title').css("color", "#1bc3a2")
-      // $('#modal-dialog img').attr('src','img/evaluate_success.png')
-    }
-    showModal('modal-dialog')
+function modalDialog(title, sub_title, mode) {
+  $("#modal-dialog .title").text(title);
+  $("#modal-dialog .sub-title").text(sub_title);
+  if (mode == "alert") {
+    $("#modal-dialog .title").css("color", "#f26e4f");
+    // $('#modal-dialog img').attr('src','')
+  } else {
+    $("#modal-dialog .title").css("color", "#1bc3a2");
+    // $('#modal-dialog img').attr('src','img/evaluate_success.png')
+  }
+  showModal("modal-dialog");
+}
+function getDistanceMatrix(origin, destination, _success, _error) {
+  try {
+    var distanceService = new google.maps.DistanceMatrixService();
+    distanceService.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.METRIC,
+        durationInTraffic: true,
+        avoidHighways: false,
+        avoidTolls: false,
+      },
+      function (response, status) {
+        if (status !== google.maps.DistanceMatrixStatus.OK) {
+          _error(response);
+        } else {
+          _success(response);
+        }
+      }
+    );
+  } catch (error) {
+    _error("เกิดข้อผิดพลาด8");
+  }
 }
